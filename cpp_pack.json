@@ -1,0 +1,214 @@
+{
+	// Place your snippets for cpp here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+
+	"Initialize": {
+		"prefix": ["initialize"],
+		"body": [
+			"#include <bits/stdc++.h>",
+			"#define oo (int)1e9",
+			"using namespace std;",
+			"using ll = long long;",
+			"using pll = pair<ll, ll>;",
+			"",
+			"int main() {",
+				"\tios::sync_with_stdio(0);",
+				"\tcin.tie(NULL);",
+				"",
+				"\treturn 0;",
+			"}"
+		],
+		"description": "An initialized C++ program for competitive programming."
+	},
+
+	"Multiset-While": {
+		"prefix": ["w-multiset"],
+		"body": [
+			"int num_cases;",
+			"cin >> num_cases;",
+			"while (num_cases--) {",
+			"\t",
+			"}"
+		],
+		"description": "For multiset problems where test case index is not needed"
+	},
+
+	"Multiset-For": {
+		"prefix": ["f-multiset"],
+		"body": [
+			"int num_cases;",
+			"cin >> num_cases;",
+			"for (int index = 1; index <= num_cases; index++) {",
+			"\t",
+			"}"
+		],
+		"description": "For multiset problems where test case index is needed"
+	},
+
+	"Topological Sort": {
+		"prefix": ["topsort"],
+		"body": [
+			"vector<int> getTopSort(vector<vector<int>> g) {",
+			"\t// calculate in degrees",
+			"\tint n = g.size();",
+			"\tvector<int> in_degrees(n);",
+			"\tfor (int i = 0; i < n; i++)",
+				"\t\tfor (int j : g[i])",
+					"\t\t\tin_degrees[j]++;",
+			"\t// store answer",
+			"\tvector<int> res(n);",
+			"\t// store all integers ready to be added",
+			"\tqueue<int> q;",
+			"\tfor (int i = 0; i < n; i++) {",
+				"\t\tif (in_degrees[i] == 0)",
+					"\t\t\tq.push(i);",
+			"\t}",
+			"\t// Fill in each item",
+			"\tfor (int i = 0; i < n; i++) {",
+				"\t\t// no top sort",
+				"\t\tif (q.size() == 0)",
+					"\t\t\treturn vector<int>();",
+				"\t\t// this vertex is safe to add in",
+				"\t\tres[i] = q.front();",
+				"\t\tq.pop();",
+				"\t\t// Each vertex on an edge from res[i] reduces it indegree by 1",
+				"\t\t// since res[i] is completed",
+				"\t\tfor (int j : g[res[i]]) {",
+					"\t\t\tin_degrees[j]--;",
+					"\t\t\t// if x gets down to 0, add it to list of vertices we can schedule",
+					"\t\t\tif (in_degrees[j] == 0)",
+						"\t\t\t\tq.push(j);",
+				"\t\t}",
+			"\t}",
+			"\treturn res;",
+			"}"
+		],
+		"description": "The graph should be a 2D integer vector such that each row represents a node, and each column represents an edge from the row node to the column node"
+	},
+
+	"Disjoint Sets": {
+		"prefix": "djsets",
+		"body": [
+		  "struct djset {",
+		  "    vector<int> parent;",
+		  "    vector<int> height;",
+		  "",
+		  "    djset(){}",
+		  "    djset(int items) {",
+		  "        parent = vector<int>(items);",
+		  "        height = vector<int>(items);",
+		  "",
+		  "        for (int i = 0; i < items; i++) {",
+		  "            parent[i] = i;",
+		  "            height[i] = 0;",
+		  "        }",
+		  "    }",
+		  "",
+		  "    int findRep(int v) {",
+		  "        if (parent[v] == v)",
+		  "            return v;",
+		  "        parent[v] = findRep(parent[v]);",
+		  "        height[v] = 1;",
+		  "        return parent[v];",
+		  "    }",
+		  "",
+		  "    bool unify(int v1, int v2) {",
+		  "        int r1 = findRep(v1);",
+		  "        int r2 = findRep(v2);",
+		  "",
+		  "        if (r1 == r2)",
+		  "            return false;",
+		  "",
+		  "        if (height[r2] < height[r1])",
+		  "            parent[r2] = r1;",
+		  "        else if (height[r1] < height[r2])",
+		  "            parent[r1] = r2;",
+		  "        else {",
+		  "            parent[r2] = r1;",
+		  "            height[r1]++;",
+		  "        }",
+		  "",
+		  "        return true;",
+		  "    }",
+		  "};",
+		  "",
+		  "struct edge {",
+		  "    int v1, v2, w;",
+		  "    edge(){}",
+		  "    edge(int v1_, int v2_, int w_) {",
+		  "        v1 = v1_;",
+		  "        v2 = v2_;",
+		  "        w = w_;",
+		  "    }",
+		  "};",
+		  "",
+		  "bool compareEdge(const edge &a, const edge &b) {",
+		  "    return a.w < b.w;",
+		  "}"
+		],
+		"description": "Disjoint Sets"
+	  },
+
+	"Kruskal's Algorithm (MST)": {
+		"prefix": "kruskal",
+		"body": [
+		  "int mst(vector<edge> edges, int n) {",
+		  "    sort(edges.begin(), edges.end(), compareEdge);",
+		  "    djset ds = djset(n);",
+		  "    int numEdges = 0, sum = 0;",
+		  "",
+		  "    for (int e = 0; e < edges.size(); e++) {",
+		  "        if (ds.unify(edges[e].v1, edges[e].v2)) {",
+		  "            numEdges++;",
+		  "            sum += edges[e].w;",
+		  "            if (numEdges == n-1) break;",
+		  "        }",
+		  "    }",
+		  "",
+		  "    return numEdges == n-1 ? sum : -1;",
+		  "}"
+		],
+		"description": "Kruskal's Algorithm (MST)"
+	  },
+
+	  "Binary Index Tree (BIT)": {
+		"prefix": "binary_index_tree",
+		"body": [
+		  "vector<ll> bin_it;",
+		  "",
+		  "void BIT_init(vector<ll> cumfreq) {",
+		  "    bin_it = vector<ll>(cumfreq.size(), 0);",
+		  "    for (int i = 0; i < cumfreq.size(); i++)",
+		  "        BIT_add(i, cumfreq[i]);",
+		  "}",
+		  "",
+		  "void BIT_add(int index, ll value) {",
+		  "    while (index < bin_it.size()) {",
+		  "        bin_it[index] += value;",
+		  "        index += ffsll(index);",
+		  "    }",
+		  "}",
+		  "",
+		  "ll BIT_sum(int index) {",
+		  "    ll ans = 0;",
+		  "    while (index > 0) {",
+		  "        ans += bin_it[index];",
+		  "        index -= ffsll(index);",
+		  "    }",
+		  "    return ans;",
+		  "}"
+		],
+		"description": "Binary Index Tree (BIT)"
+	  }
+}
