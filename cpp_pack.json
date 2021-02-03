@@ -13,8 +13,8 @@
 	// 	"description": "Log output to console"
 	// }
 
-	"Initialize": {
-		"prefix": ["initialize"],
+	  "Initialize": {
+		"prefix": ["hack_initialize"],
 		"body": [
 			"#include <bits/stdc++.h>",
 			"#define oo (int)1e9",
@@ -23,82 +23,111 @@
 			"using pll = pair<ll, ll>;",
 			"",
 			"int main() {",
-				"\tios::sync_with_stdio(0);",
-				"\tcin.tie(NULL);",
-				"",
-				"\treturn 0;",
+			"    ios::sync_with_stdio(0);",
+			"    cin.tie(NULL);",
+			"",
+			"    return 0;",
 			"}"
 		],
 		"description": "An initialized C++ program for competitive programming."
-	},
+	  },
 
-	"Multiset-While": {
-		"prefix": ["w-multiset"],
+	  "Multiset-While": {
+		"prefix": ["hack_w-multiset"],
 		"body": [
 			"int num_cases;",
 			"cin >> num_cases;",
 			"while (num_cases--) {",
-			"\t",
+			"    ",
 			"}"
 		],
 		"description": "For multiset problems where test case index is not needed"
-	},
+	  },
 
-	"Multiset-For": {
-		"prefix": ["f-multiset"],
+	  "Multiset-For": {
+		"prefix": ["hack_f-multiset"],
 		"body": [
 			"int num_cases;",
 			"cin >> num_cases;",
 			"for (int index = 1; index <= num_cases; index++) {",
-			"\t",
+			"    ",
 			"}"
 		],
 		"description": "For multiset problems where test case index is needed"
-	},
+	  },
 
-	"Topological Sort": {
-		"prefix": ["topsort"],
+	  "Adjacency List": {
+		"prefix": "hack_adjlist",
 		"body": [
-			"vector<int> getTopSort(vector<vector<int>> g) {",
-			"\t// calculate in degrees",
-			"\tint n = g.size();",
-			"\tvector<int> in_degrees(n);",
-			"\tfor (int i = 0; i < n; i++)",
-				"\t\tfor (int j : g[i])",
-					"\t\t\tin_degrees[j]++;",
-			"\t// store answer",
-			"\tvector<int> res(n);",
-			"\t// store all integers ready to be added",
-			"\tqueue<int> q;",
-			"\tfor (int i = 0; i < n; i++) {",
-				"\t\tif (in_degrees[i] == 0)",
-					"\t\t\tq.push(i);",
-			"\t}",
-			"\t// Fill in each item",
-			"\tfor (int i = 0; i < n; i++) {",
-				"\t\t// no top sort",
-				"\t\tif (q.size() == 0)",
-					"\t\t\treturn vector<int>();",
-				"\t\t// this vertex is safe to add in",
-				"\t\tres[i] = q.front();",
-				"\t\tq.pop();",
-				"\t\t// Each vertex on an edge from res[i] reduces it indegree by 1",
-				"\t\t// since res[i] is completed",
-				"\t\tfor (int j : g[res[i]]) {",
-					"\t\t\tin_degrees[j]--;",
-					"\t\t\t// if x gets down to 0, add it to list of vertices we can schedule",
-					"\t\t\tif (in_degrees[j] == 0)",
-						"\t\t\t\tq.push(j);",
-				"\t\t}",
-			"\t}",
-			"\treturn res;",
-			"}"
+		  "// adjacency list for graph problems",
+		  "struct adj_list {",
+		  "    vector<vector<int>> adj;",
+		  "    int n;",
+		  "",
+		  "    adj_list(int n_) {",
+		  "        adj = vector<vector<int>>(n_);",
+		  "        n = n_;",
+		  "    }",
+		  "",
+		  "    void addEdge(int u, int v) {",
+		  "        adj[u].push_back(v);",
+		  "    }",
+		  "};"
 		],
-		"description": "The graph should be a 2D integer vector such that each row represents a node, and each column represents an edge from the row node to the column node"
-	},
+		"description": "Adjacency List"
+	  },
 
-	"Disjoint Sets": {
-		"prefix": "djsets",
+	  "Topological Sort": {
+		"prefix": "hack_topsort",
+		"body": [
+		  "// get a topological sort - O(V+E)",
+		  "vector<int> topSort(vector<vector<int>> graph) {",
+		  "    int n = graph.size();",
+		  "",
+		  "    // calculate in degrees",
+		  "    vector<int> in_degrees(n);",
+		  "    for (int i = 0; i < n; i++)",
+		  "        for (int j : graph[i])",
+		  "            in_degrees[j]++;",
+		  "",
+		  "    // store answer",
+		  "    vector<int> res(n);",
+		  "",
+		  "    // store all integers ready to be added",
+		  "    queue<int> q;",
+		  "    for (int i = 0; i < n; i++)",
+		  "        if (in_degrees[i] == 0)",
+		  "            q.push(i);",
+		  "",
+		  "    // Fill in each item",
+		  "    for (int i = 0; i < n; i++) {",
+		  "        // there were no nodes that reached an in_degree of 0 on the last iteration,",
+		  "        // so there is no valid topological sort",
+		  "        if (q.size() == 0)",
+		  "            return vector<int>();",
+		  "",
+		  "        // this vertex is safe to add in",
+		  "        res[i] = q.front();",
+		  "        q.pop();",
+		  "",
+		  "        // Each vertex on an edge from res[i] reduces it indegree by 1",
+		  "        // since res[i] is completed",
+		  "        for (int j : graph[res[i]]) {",
+		  "            in_degrees[j]--;",
+		  "            // if x gets down to 0, add it to list of vertices we can schedule",
+		  "            if (in_degrees[j] == 0)",
+		  "                q.push(j);",
+		  "        }",
+		  "    }",
+		  "",
+		  "    return res;",
+		  "}"
+		],
+		"description": "Topological Sort"
+	  },
+
+	  "Disjoint Sets": {
+		"prefix": "hack_djsets",
 		"body": [
 		  "struct djset {",
 		  "    vector<int> parent;",
@@ -160,10 +189,10 @@
 		"description": "Disjoint Sets"
 	  },
 
-	"Kruskal's Algorithm (MST)": {
-		"prefix": "kruskal",
+	  "Kruskal's Algorithm (MST)": {
+		"prefix": "hack_kruskal",
 		"body": [
-		  "int mst(vector<edge> edges, int n) {",
+		  "int kruskalMST(vector<edge> edges, int n) {",
 		  "    sort(edges.begin(), edges.end(), compareEdge);",
 		  "    djset ds = djset(n);",
 		  "    int numEdges = 0, sum = 0;",
@@ -182,25 +211,25 @@
 		"description": "Kruskal's Algorithm (MST)"
 	  },
 
-	  "Binary Index Tree (BIT)": {
-		"prefix": "binary_index_tree",
+	  "Binary Index Tree": {
+		"prefix": "hack_binary_index_tree",
 		"body": [
 		  "vector<ll> bin_it;",
 		  "",
-		  "void BIT_init(vector<ll> cumfreq) {",
+		  "void bitInit(vector<ll> cumfreq) {",
 		  "    bin_it = vector<ll>(cumfreq.size(), 0);",
 		  "    for (int i = 0; i < cumfreq.size(); i++)",
 		  "        BIT_add(i, cumfreq[i]);",
 		  "}",
 		  "",
-		  "void BIT_add(int index, ll value) {",
+		  "void bitAdd(int index, ll value) {",
 		  "    while (index < bin_it.size()) {",
 		  "        bin_it[index] += value;",
 		  "        index += ffsll(index);",
 		  "    }",
 		  "}",
 		  "",
-		  "ll BIT_sum(int index) {",
+		  "ll bitSum(int index) {",
 		  "    ll ans = 0;",
 		  "    while (index > 0) {",
 		  "        ans += bin_it[index];",
@@ -209,6 +238,39 @@
 		  "    return ans;",
 		  "}"
 		],
-		"description": "Binary Index Tree (BIT)"
+		"description": "Binary Index Tree"
+	  },
+
+	  "Floyd-Warshall Algorithm (Shortest Distance)": {
+		"prefix": "hack_floydwarshall",
+		"body": [
+		  "// get shortest distance between every vertex in the adjacency matrix - O(|V|^3)",
+		  "pair<vector<vector<int>>, vector<vector<int>>> floydWarshall(vector<vector<int>> graph) {",
+		  "    int n = graph.size();",
+		  "    // create a memo",
+		  "    vector<vector<int>> memo(graph);",
+		  "    // store path info for path reconstruction",
+		  "    vector<vector<int>> path(n, vector<int>(n, -1));",
+		  "",
+		  "    // k = # of vertex used in intermediate path",
+		  "    for (int k = 0; k < n; k++) {",
+		  "        // i = \"from\" node",
+		  "        for (int i = 0; i < n; i++) {",
+		  "            // j = \"to\" node",
+		  "            for (int j = 0; j < n; j++) {",
+		  "                // update path reconstruction matrix & shortest distance matrix",
+		  "                if (memo[i][k] + memo[k][j] < memo[i][j]) {",
+		  "                    memo[i][j] = memo[i][k] + memo[k][j];",
+		  "                    path[i][j] = path[k][j];",
+		  "                }",
+		  "            }",
+		  "        }",
+		  "    }",
+		  "",
+		  "    // return both",
+		  "    return make_pair(memo, path);",
+		  "}"
+		],
+		"description": "Floyd-Warshall Algorithm (Shortest Distance)"
 	  }
 }
