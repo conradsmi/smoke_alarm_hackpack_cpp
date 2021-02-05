@@ -77,6 +77,26 @@
 		"description": "Adjacency List"
 	  },
 
+	  "Edge Struct": {
+		"prefix": "hack_edge",
+		"body": [
+		  "struct edge {",
+		  "    int v1, v2, w;",
+		  "    edge(){}",
+		  "    edge(int v1_, int v2_, int w_) {",
+		  "        v1 = v1_;",
+		  "        v2 = v2_;",
+		  "        w = w_;",
+		  "    }",
+		  "};",
+		  "",
+		  "bool compareEdge(const edge &a, const edge &b) {",
+		  "    return a.w < b.w;",
+		  "}"
+		],
+		"description": "Edge Struct"
+	  },
+
 	  "Topological Sort": {
 		"prefix": "hack_topsort",
 		"body": [
@@ -170,21 +190,7 @@
 		  "",
 		  "        return true;",
 		  "    }",
-		  "};",
-		  "",
-		  "struct edge {",
-		  "    int v1, v2, w;",
-		  "    edge(){}",
-		  "    edge(int v1_, int v2_, int w_) {",
-		  "        v1 = v1_;",
-		  "        v2 = v2_;",
-		  "        w = w_;",
-		  "    }",
-		  "};",
-		  "",
-		  "bool compareEdge(const edge &a, const edge &b) {",
-		  "    return a.w < b.w;",
-		  "}"
+		  "};"
 		],
 		"description": "Disjoint Sets"
 	  },
@@ -252,7 +258,7 @@
 		  "    // store path info for path reconstruction",
 		  "    vector<vector<int>> path(n, vector<int>(n, -1));",
 		  "",
-		  "    // k = # of vertex used in intermediate path",
+		  "    // k = id of vertex used in intermediate path",
 		  "    for (int k = 0; k < n; k++) {",
 		  "        // i = \"from\" node",
 		  "        for (int i = 0; i < n; i++) {",
