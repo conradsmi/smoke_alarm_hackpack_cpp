@@ -247,10 +247,11 @@
 		"description": "Binary Index Tree"
 	  },
 
-	  "Floyd-Warshall Algorithm (Shortest Distance)": {
+	  "Floyd-Warshall Algorithm (Shortest Distances)": {
 		"prefix": "hack_floydwarshall",
 		"body": [
 		  "// get shortest distance between every vertex in the adjacency matrix - O(|V|^3)",
+		  "// return shortest distance matrix and path reconstruction matrix",
 		  "pair<vector<vector<int>>, vector<vector<int>>> floydWarshall(vector<vector<int>> graph) {",
 		  "    int n = graph.size();",
 		  "    // create a memo",
@@ -277,6 +278,49 @@
 		  "    return make_pair(memo, path);",
 		  "}"
 		],
-		"description": "Floyd-Warshall Algorithm (Shortest Distance)"
+		"description": "Floyd-Warshall Algorithm (Shortest Distances)"
+	  },
+
+	  "Bellman Ford (Shortest Distance)": {
+		"prefix": "hack_bellmanford",
+		"body": [
+		  "// get shortest distance from source vertex to every other vertex in matrix - O(|V|^3)",
+		  "// [assumes empty edges of graph are valued as infinity (oo)]",
+		  "// [use this instead of dijkstras when graph has negative edge weights]",
+		  "// return shortest distance vector and path reconstruction vector",
+		  "pair<vector<int>, vector<int>> bellmanFord(vector<vector<int>> graph, int source) {",
+		  "    int n = graph.size();",
+		  "    // shortest distance",
+		  "    vector<int> dist(n, oo);",
+		  "    // path reconstruction",
+		  "    vector<int> path(n, -1);",
+		  "    dist[source] = 0;",
+		  "",
+		  "    // calculate minimum distances",
+		  "    for (int k = 0; k < n; k++) {",
+		  "        for (int i = 0; i < n; i++) {",
+		  "            for (int j = 0; j < n; j++) {",
+		  "                // update path reconstruction vector & shortest distance vector",
+		  "                if (dist[i] + graph[i][j] < dist[j]) {",
+		  "                    dist[j] = dist[i] + graph[i][j];",
+		  "                    path[j] = i;",
+		  "                }",
+		  "            }",
+		  "        }",
+		  "    }",
+		  "",
+		  "    // look for negative cycles",
+		  "    for (int i = 0; i < n; i++)",
+		  "        for (int j = 0; j < n; j++)",
+		  "            // if we do one more iteration and get a shorter path for any vertex,",
+		  "            // then there is negative cycle",
+		  "            if (dist[i] + graph[i][j] < dist[j])",
+		  "                return make_pair(vector<int>(), vector<int>());",
+		  "",
+		  "    // return both",
+		  "    return make_pair(dist, path);",
+		  "}"
+		],
+		"description": "Bellman Ford (Shortest Distance)"
 	  }
 }
