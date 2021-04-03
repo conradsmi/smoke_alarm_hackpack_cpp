@@ -193,7 +193,7 @@
 		"prefix": "hack_topsort",
 		"body": [
 		  "// get a topological sort - O(V+E)",
-		  "vector<int> topSort(vector<vector<int>> graph) {",
+		  "vector<int> topSort(vector<vector<int>> &graph) {",
 		  "    int n = graph.size();",
 		  "",
 		  "    // calculate in degrees",
@@ -237,6 +237,60 @@
 		],
 		"description": "Topological Sort"
 	  },
+
+	  "All Topological Sorts": {
+		  "prefix": "allTopSort",
+		  "body": [
+			"// get all topological sorts",
+			"void allTopSortUtil(vector<vector<int>> &graph, vector<vector<int>> &ans, vector<int> &curr, vector<int> &in_degrees, vector<bool> &visited) {",
+			"    int n = graph.size();",
+			"    bool done = false;",
+			"",
+			"    for (int i = 0; i < n; i++) {",
+			"        // ready to visit",
+			"        if (in_degrees[i] == 0 && !visited[i]) {",
+			"            // Each vertex on an edge from res[i] reduces it indegree by 1",
+			"            // since res[i] is completed",
+			"            for (int j : graph[i])",
+			"                in_degrees[j]--;",
+			"",
+			"            // this vertex is safe to add in, use backtracking to find more",
+			"            curr.push_back(i);",
+			"            visited[i] = true;",
+			"            allTopSortUtil(graph, ans, curr, in_degrees, visited);",
+			"",
+			"            // backtracking done, reset state",
+			"            visited[i] = false;",
+			"            curr.pop_back();",
+			"            for (int j : graph[i])",
+			"                in_degrees[j]++;",
+			"",
+			"            done = true;",
+			"        }",
+			"    }",
+			"",
+			"    if (!done)",
+			"        ans.push_back(curr);",
+			"}",
+			"",
+			"vector<vector<int>> allTopSort(vector<vector<int>> &graph) {",
+			"    int n = graph.size();",
+			"    vector<bool> visited(n, false);",
+			"",
+			"    // calculate in degrees",
+			"    vector<int> in_degrees(n);",
+			"    for (int i = 0; i < n; i++)",
+			"        for (int j : graph[i])",
+			"            in_degrees[j]++;",
+			"",
+			"    vector<vector<int>> res;",
+			"    vector<int> curr;",
+			"    allTopSortUtil(graph, res, curr, in_degrees, visited);",
+			"    return res;",
+			"}"
+		  ],
+		  "description": "All Topological Sorts"
+		},
 
 	  "Edge Struct": {
 		"prefix": "hack_edge",
@@ -361,4 +415,19 @@
 		],
 		"description": "Binary Index Tree"
 	  },
+
+	  "Fastpow": {
+		"prefix": "hack_fastpow",
+		"body": [
+		  "template <typename T>",
+		  "T power(int base, int exp) {",
+		  "    if (exp == 0)",
+		  "        return 1;",
+		  "",
+		  "    T half = power<T>(base, exp / 2);",
+		  "    return (exp % 2 == 0) ? (half * half) : (base * half * half);",
+		  "}"
+		],
+		"description": "Fastpow"
+	  }
 }
