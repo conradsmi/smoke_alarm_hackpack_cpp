@@ -18,7 +18,7 @@ The official C++ ICPC Hackpack for UCF Team Smoke Alarm!
 
 1. Every snippet tab trigger should be preceded by "hack_".
 
-2. No class! Only struct!
+2. Structs are preferred
 
 3. Use snake_case for struct/variable names and camelCase for function names.
 
@@ -26,4 +26,4 @@ The official C++ ICPC Hackpack for UCF Team Smoke Alarm!
 
 5. Comment generously.
 
-6. For data structures and algorithms, write a short one-line comment with a brief overview. For algorithms, include the time complexity in this description and put the use usage of the algorithm in parantheses in the name field (e.g. "Kruskal's Algorithm (MST)).
+6. For data structures and algorithms, write a short one-line comment with a brief overview. For algorithms, include the time complexity in this description and put the usage of the algorithm in parantheses in the name field (e.g. "Kruskal's Algorithm (MST)).
