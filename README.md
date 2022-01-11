@@ -1,6 +1,6 @@
 # smoke_alarm_hackpack_cpp
 
-The official C++ ICPC Hackpack for UCF Team Smoke Alarm!
+The official C++ ICPC Hackpack for UCF Team Smoke Alarm
 
 ## How to install
 
